@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Enviar CSV</title>
+</head>
+<body>
+	<form  action="#" method="POST" enctype="multipart/form-data">
+		<label for="file"> Seleccione Archivo:</label> <br>
+		<input type="file" name="file" id="file-input">
+	</form>
+	<pre id="file-content"></pre>
+	<script type="text/javascript">
+		function getDataFromFile(e) {
+			// document.getElementById('file-content').innerHTML=''; 
+			var archivo = e.target.files[0]; 
+			if (!archivo) {
+				return; 
+			} 
+			var content = new FileReader(); 
+			content.onload = function(e) {
+				var data = e.target.result; 
+				//buscar cadena y limpiar 
+				strBreak= 'Fecha'; 
+				strPosition = data.indexOf(strBreak) 
+				strFile = ""; 
+				if(strPosition!==-1){
+					strFile = data.slice(strPosition)
+				} 
+				else {
+
+					document.getElementById('file-content').innerHTML='parametros de busqueda no validos'; 
+					return; 
+				}
+				//ejecutar funcion ajax para insertar datos 
+				// enviarDatosAjax(data); 
+				printData(strFile); 
+			}; 
+			content.readAsText(archivo); 
+		} 
+		function printData(str) {
+			var element = document.getElementById('file-content'); 
+			element.innerHTML = str; 
+		} 
+		document.getElementById('file-input') 
+			.addEventListener('change', getDataFromFile, false); 
+	</script>
+</body>
+</html>
